@@ -29,17 +29,17 @@ public class AdministratorRepository {
     public void insert(Administrator administrator) {
         SqlParameterSource param = new BeanPropertySqlParameterSource(administrator);
         if (administrator.getId() == null) {
-            String sql = "INSERT INTO administrators(id, name, mail_adress, password) VALUES(:id, :name, :mail_adress, :password); ";
+            String sql = "INSERT INTO administrators(name, mail_address, password) VALUES(:name, :mailAddress, :password); ";
              template.update(sql, param);
         }else{
-            String sql = "UPDATE administrators SET name =:name, mail_adress=:mail_address, password=:password WHERE id=:id ;";
+            String sql = "UPDATE administrators SET name =:name, mail_address=:mailAddress, password=:password WHERE id=:id ;";
             template.update(sql, param);
         }
         System.out.println("insertメソッドが呼び出されました");
     }
 
     public Administrator findByMailAddressAndPassword(String mailAddress, String password){
-        String sql = "SELECT id, name, mail_address, password FROM administrators WHERE mail_adress= :mail_adress AND password = :password; ";
+        String sql = "SELECT id, name, mail_address, password FROM administrators WHERE mail_address= :mail_address AND password = :password; ";
         SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password", password);
         Administrator admin = template.queryForObject(sql,param, ADMINISTRATOR_ROW_MAPPWE);
         System.out.println("findBymailAndpassメソッドを呼び出しました");

@@ -5,7 +5,15 @@ public class InsertAdministratorForm {
     private String name;
     private String mailAddress;
     private String password;
+
+    public InsertAdministratorForm() {
+    }
     
+    public InsertAdministratorForm(String name, String mailAddress, String password) {
+        this.name = name;
+        this.mailAddress = mailAddress;
+        this.password = password;
+    }
     @Override
     public String toString() {
         return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
