@@ -34,4 +34,10 @@ public class AdministratorController {
         administratorService.insert(administrator);
         return "redirect:/";
     }
+
+    @GetMapping("/toLogin")
+    public String toLogin(LoginForm form){
+        return "administrator/login";
+
+    }
     }
