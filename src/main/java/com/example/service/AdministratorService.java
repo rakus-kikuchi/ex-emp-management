@@ -9,8 +9,9 @@ import com.example.repository.AdministratorRepository;
 //管理者関連機能
 @Service
 @Transactional
-public class Administrator {
+public class AdministratorService {
+
     @Autowired
     private AdministratorRepository administratorRepository;
-    
+
 }
