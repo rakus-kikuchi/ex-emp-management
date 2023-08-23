@@ -10,14 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.Administrator;
 
-//administrators table
 
 @Repository
 public class AdministratorRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate template;
-    private static final RowMapper<Administrator> ADMINISTRATOR_ROW_MAPPWE = (rs,i)->{
+    private static final RowMapper<Administrator> ADMINISTRATOR_ROW_MAPPER = (rs, i) -> {
         Administrator admin = new Administrator();
         admin.setId(rs.getInt("id"));
         admin.setName(rs.getString("name"));
@@ -30,20 +29,23 @@ public class AdministratorRepository {
         SqlParameterSource param = new BeanPropertySqlParameterSource(administrator);
         if (administrator.getId() == null) {
             String sql = "INSERT INTO administrators(name, mail_address, password) VALUES(:name, :mailAddress, :password); ";
-             template.update(sql, param);
-        }else{
+            template.update(sql, param);
+        } else {
             String sql = "UPDATE administrators SET name =:name, mail_address=:mailAddress, password=:password WHERE id=:id ;";
             template.update(sql, param);
         }
         System.out.println("insertメソッドが呼び出されました");
     }
 
-    public Administrator findByMailAddressAndPassword(String mailAddress, String password){
-        String sql = "SELECT id, name, mail_address, password FROM administrators WHERE mail_address= :mail_address AND password = :password; ";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password", password);
-        Administrator admin = template.queryForObject(sql,param, ADMINISTRATOR_ROW_MAPPWE);
-        System.out.println("findBymailAndpassメソッドを呼び出しました");
-        return admin;
+    public Administrator findByMailAddressAndPassword(String mailAddress, String password) {
+        String sql = "SELECT id, name, mail_address, password FROM administrators WHERE mail_address= :mailAddress AND password = :password; ";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password",
+                password);
+        try {
+            return template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

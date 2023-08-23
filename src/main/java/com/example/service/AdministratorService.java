@@ -19,4 +19,11 @@ public class AdministratorService {
         administratorRepository.insert(administrator);
     }
 
+    public Administrator login(Administrator administrator){
+        if(administrator == null){
+            return null;
+        }
+        return administratorRepository.findByMailAddressAndPassword(administrator.getMailAddress(), administrator.getPassword());
+    }
+
 }
