@@ -52,13 +52,20 @@ public class AdministratorController {
     @PostMapping("/login")
     public String login(LoginForm form, Model model){
         Administrator administrator = new Administrator();
+        administrator = administratorService.login(administrator.getMailAddress(), administrator.getPassword());
         BeanUtils.copyProperties(form, administrator);
-        if(administratorService.login(administrator) == null){
+        if(administrator == null){
             model.addAttribute("message", "メールアドレスまたはパスワードが不正です");
             return "administrator/login";
         }
         session.setAttribute("administratorName",administrator.getName());
         return "redirect:/employee/showList";
+    }
+
+    @GetMapping("/logout")
+    public String logout(LoginForm form){
+        session.invalidate();
+        return "redirect:/";
     }
 
 
