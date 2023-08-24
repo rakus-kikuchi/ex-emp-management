@@ -52,7 +52,7 @@ public class AdministratorController {
     @PostMapping("/login")
     public String login(LoginForm form, Model model){
         Administrator administrator = new Administrator();
-        administrator = administratorService.login(administrator.getMailAddress(), administrator.getPassword());
+        administrator = administratorService.login(form.getMailAddress(), form.getPassword());
         BeanUtils.copyProperties(form, administrator);
         if(administrator == null){
             model.addAttribute("message", "メールアドレスまたはパスワードが不正です");
